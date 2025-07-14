@@ -11,5 +11,8 @@
   "devDependencies": {
     "sass": "^1.89.2",
     "vite": "^7.0.4"
+  },
+  "dependencies": {
+    "macy": "^2.5.1"
   }
 }

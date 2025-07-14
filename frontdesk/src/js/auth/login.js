@@ -1,6 +1,13 @@
-import { apiFetch } from '../utils/apiFetch';
-import { showLoading, hideLoading } from '../components/loading';
-import { refreshHeader } from '../components/header';
+import { apiFetch } from '../utils/apiFetch.js';
+import { showLoading, hideLoading } from '../components/loading.js';
+import { refreshHeader } from '../components/header.js';
+
+// Función para decodificar un JWT sin usar librerías
+function decodeToken(token) {
+  const payload = token.split('.')[1];
+  const decoded = atob(payload);
+  return JSON.parse(decoded);
+}
 
 export const handleLogin = async (email, password, messageEl) => {
   if (!email || !password) {
@@ -16,8 +23,13 @@ export const handleLogin = async (email, password, messageEl) => {
       body: { email, password }
     });
 
+    // Guardar el token
     sessionStorage.setItem('token', res.token);
-    sessionStorage.setItem('role', res.user.rol || 'user'); // ← CORREGIDO
+
+    // ✅ Decodificar el token y guardar userId y rol
+    const decoded = decodeToken(res.token);
+    sessionStorage.setItem('userId', decoded.id);
+    sessionStorage.setItem('role', decoded.rol || 'user');
 
     hideLoading();
     refreshHeader();

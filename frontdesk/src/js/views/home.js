@@ -1,15 +1,22 @@
 import { createEl } from '../utils/createElements.js';
+import { apiFetch } from '../utils/apiFetch.js';
+import { renderGallery } from '../components/gallery.js';
+import { withLoading } from '../components/loading.js'; // ← mismo archivo
 
-export default function viewHome() {
+async function viewHome() {
   const container = createEl('div', 'view');
+  const galleryWrapper = createEl('div', 'gallery-wrapper');
+  container.appendChild(galleryWrapper);
 
-  const title = createEl('h2', null, 'Vista Home');
+  try {
+    const data = await apiFetch('/obras');
+    console.log('Respuesta del backend:', data);
+    renderGallery(data, galleryWrapper);
+  } catch (error) {
+    galleryWrapper.textContent = 'Error al cargar obras: ' + error.message;
+  }
 
-  const sessionStatus = createEl('p');
-  const token = sessionStorage.getItem('token');
-
-  sessionStatus.textContent = token ? '✅ Hay sesión activa' : '🔒 No hay sesión';
-
-  container.append(title, sessionStatus);
   return container;
 }
+
+export default withLoading(viewHome);

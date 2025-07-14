@@ -64,6 +64,7 @@ export const createHeader = () => {
 
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('role');
+        sessionStorage.removeItem('userId');
         refreshHeader();
 
         if (location.hash === '#home') {

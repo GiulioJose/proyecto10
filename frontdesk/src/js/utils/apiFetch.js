@@ -2,8 +2,8 @@
 const isLocalhost = location.hostname === 'localhost';
 
 const API_URL = isLocalhost
-  ? 'http://localhost:4000'     // URL del backend local
-  : 'https://api.midominio.com'; // URL de producción (ajústala cuando despliegues)
+  ? 'http://localhost:4000' 
+  : 'https://api.midominio.com'; 
 
 /**
  * apiFetch centraliza llamadas al backend
