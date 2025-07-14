@@ -1,0 +1,110 @@
+:root {
+  // ==================================
+  // 🎨 PALETA DE COLORES RTC
+  // ==================================
+  --rtc-color-1: #2B024A;
+  --rtc-color-2: #4B1A72;
+  --rtc-color-3: #E371FF;
+  --rtc-color-4: #E4CFF5;
+  --rtc-color-5: #FFFFFF;
+  --rtc-color-6: #997AB1;
+  --rtc-color-7: #000000;
+
+  // ==================================
+  // 🎯 COLORES SEMÁNTICOS
+  // ==================================
+  --color-success: #28a745;
+  --color-error: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+
+  // ==================================
+  // 🖼️ BACKGROUND COLORS (bgc)
+  // ==================================
+  --bg-color-1: var(--rtc-color-1);
+  --bg-color-2: var(--rtc-color-2);
+  --bg-color-3: var(--rtc-color-5);
+  --bg-color-4: var(--rtc-color-4);
+
+  // ==================================
+  // ✍️ TEXT COLORS (txt)
+  // ==================================
+  --txt-color-1: var(--rtc-color-5);
+  --txt-color-2: var(--rtc-color-3);
+  --txt-color-3: var(--rtc-color-7);
+  --txt-color-4: var(--rtc-color-6);
+  --txt-color-5: var(--rtc-color-2);
+
+  // ==================================
+  // 🔠 TEXT FONT SIZES (tfs)
+  // ==================================
+  --tfs-size-1: 16px;
+  --tfs-size-2: 20px;
+  --tfs-size-3: 24px;
+  --tfs-size-4: 32px;
+  --tfs-size-5: 40px;
+  --tfs-size-6: 48px;
+  --tfs-size-7: 64px;
+  --tfs-size-8: 96px;
+
+  // ==================================
+  // 🅰️ FUENTES (fnt)
+  // ==================================
+  --fnt-family: 'Inter', sans-serif;
+  --fnt-weight-1: 300; // light
+  --fnt-weight-2: 400; // regular
+  --fnt-weight-3: 500; // medium
+  --fnt-weight-4: 600; // semi bold
+  --fnt-weight-5: 700; // bold
+  --fnt-weight-6: 800; // extra bold
+
+  // ==================================
+  // 🟪 RADIOS (Corner Radius - cr)
+  // ==================================
+  --cr-radius-1: 10px;
+  --cr-radius-2: 20px;
+  --cr-radius-3: 30px;
+
+  // ==================================
+  // 📏 ESPACIADOS (Margin / Padding / Gap)
+  // ==================================
+  --mpg-dyn-1: 1vw;
+  --mpg-dyn-2: 2vw;
+  --mpg-dyn-3: 3vw;
+  --mpg-dyn-4: 4vw;
+  --mpg-dyn-5: 5vw;
+  --mpg-dyn-6: 6vw;
+  --mpg-dyn-7: 7vw;
+
+  // ==================================
+  // 🌫️ SOMBRAS (Shadows)
+  // ==================================
+  --shadow-1: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  // ==================================
+  // 🧱 Z-INDEX
+  // ==================================
+  --z-index-dropdown: 900;
+  --z-index-modal: 1000;
+  --z-index-overlay: 1100;
+
+    // ==================================
+  // 📐 UNIDAD BASE
+  // ==================================
+  --base-unit: 8px;
+
+  // ==================================
+  // 🔡 TIPOGRAFÍA COMPLEMENTARIA
+  // ==================================
+  --line-height-default: 1.5;
+  --letter-spacing-default: 0.5px;
+
+  // ==================================
+  // 🧭 BREAKPOINTS RESPONSIVE
+  // ==================================
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
+}

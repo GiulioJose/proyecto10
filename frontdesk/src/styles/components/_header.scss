@@ -1,0 +1,83 @@
+@use '../global/mixins' as *;
+
+.header, .header * {
+  height: 100%;
+  z-index: 1000;
+}
+
+.header {
+  @include flex();
+  @include box(10dvh);
+  @include limit-height(40px, 100px);
+  position: sticky;
+  top: 0px;
+  background-color: var(--bg-color-1);
+  color: var(--txt-color-1);
+
+  .logo {
+    font-size: var(--tfs-size-3);
+  }
+
+  .links ul,
+  .session ul {
+    @include flex();
+  }
+
+  a {
+    @include flex();
+    padding: 0 var(--mpg-dyn-1);
+  }
+
+  .logo,
+  .session-link,
+  .toggleButton {
+    padding: 0 var(--mpg-dyn-2);
+  }
+
+  .inactive {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+  }
+}
+
+// Efecto hover
+.header {
+  > a,
+  li {
+    transition: all 0.3s ease;
+  }
+
+  > a:hover,
+  li:hover {
+    @include hover(var(--bg-color-4), var(--txt-color-5));
+  }
+}
+
+// Botón hamburguesa
+.toggleButton {
+  display: none;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  color: var(--txt-color-1);
+}
+
+@media (max-width: 800px) {
+  .header {
+    .links,
+    .session {
+      display: none;
+    }
+  }
+
+  .toggleButton {
+    display: block;
+
+    &:hover {
+      @include hover(var(--bg-color-4), var(--txt-color-5));
+    }
+  }
+}

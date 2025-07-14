@@ -1,0 +1,24 @@
+// ==================================
+// 🌐 ESTILOS GLOBALES
+// ==================================
+@use 'global/global' as *;
+@use 'global/variables' as *;
+@use 'global/mixins' as *;
+@use 'global/reset';
+
+// ==================================
+// 🧩 COMPONENTES
+// ==================================
+@use 'components/header';
+@use 'components/footer';
+@use 'components/galeria';
+@use 'components/loading';
+@use 'components/botonFavoritos';
+
+// ==================================
+// 🧭 VISTAS
+// ==================================
+@use 'views/login';
+@use 'views/register';
+@use 'views/buscar';
+@use 'views/info';

@@ -1,0 +1,29 @@
+@use '../global/variables' as *;
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8); // Podés reemplazar por: rgba(var(--bg-color-3), 0.8) si usás colores RGB
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-index-overlay);
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid var(--rtc-color-6);
+    border-top-color: var(--rtc-color-1);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

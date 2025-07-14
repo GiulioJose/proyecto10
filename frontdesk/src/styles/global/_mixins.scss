@@ -1,0 +1,76 @@
+// ==================================
+// ♻️ FLEXBOX
+// ==================================
+@mixin flex($dir: row, $jc: space-between, $alg: center) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $jc;
+  align-items: $alg;
+}
+
+// ==================================
+// 🖱️ HOVER STATES
+// ==================================
+@mixin hover($bg, $text) {
+  background-color: $bg;
+  color: $text;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// ==================================
+// 📦 DIMENSIONES
+// ==================================
+@mixin box($height, $width: 100%) {
+  height: $height;
+  width: $width;
+}
+
+@mixin limit-height($min, $max) {
+  min-height: $min;
+  max-height: $max;
+}
+
+@mixin limit-width($min, $max) {
+  min-width: $min;
+  max-width: $max;
+}
+
+// ==================================
+// ✂️ TEXTO
+// ==================================
+@mixin text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// ==================================
+// 🎯 CENTRADO ABSOLUTO
+// ==================================
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// ==================================
+// 🔠 FUENTE RESPONSIVE
+// ==================================
+@mixin responsive-font($minSize, $maxSize) {
+  font-size: clamp($minSize, 2vw, $maxSize);
+}
+
+// ==================================
+// 🔘 BOTÓN BASE
+// ==================================
+@mixin button-base($bg, $color) {
+  background-color: $bg;
+  color: $color;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: var(--cr-radius-1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

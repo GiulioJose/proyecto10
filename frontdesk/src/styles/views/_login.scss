@@ -1,0 +1,57 @@
+@use '../global/mixins' as *;
+#login{
+  margin: auto 0;
+}
+.login-container {
+  background-color: var(--bg-color-4);
+  padding: 2rem;
+  border-radius: var(--cr-radius-2);
+  box-shadow: var(--shadow-2);
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+
+  h2 {
+    text-align: center;
+    color: var(--txt-color-5);
+    font-weight: var(--fnt-weight-5);
+    margin-bottom: 1.5rem;
+    @include responsive-font(1.2rem, 2rem);
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    input {
+      padding: 0.75rem 1rem;
+      border-radius: var(--cr-radius-1);
+      border: 1px solid var(--rtc-color-6);
+      font-size: var(--tfs-size-1);
+      background-color: var(--bg-color-3);
+      color: var(--txt-color-3);
+
+      &:focus {
+        outline: none;
+        border-color: var(--rtc-color-3);
+      }
+    }
+
+    .submit-btn {
+      @include button-base(var(--rtc-color-2), var(--rtc-color-5));
+      font-weight: var(--fnt-weight-4);
+
+      &:hover {
+        @include hover(var(--rtc-color-3), var(--rtc-color-7));
+      }
+    }
+
+    .message {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--color-error);
+      min-height: 1.5rem;
+    }
+  }
+}

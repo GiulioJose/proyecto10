@@ -1,0 +1,26 @@
+@use '../global/mixins' as *;
+
+.footer {
+  @include box(60px);
+  background-color: var(--bg-color-1);
+  color: var(--txt-color-1);
+  @include flex(column, space-evenly);
+  font-size: var(--tfs-size-3);
+
+  &__text {
+    text-align: center;
+  }
+
+  &__name {
+    color: var(--txt-color-2);
+  }
+
+  &__name {
+    font-weight: var(--fnt-weight-5);
+  }
+
+  // Los saltos de línea solo en mobile
+  br {
+    display: none;
+  }
+}
