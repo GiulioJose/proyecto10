@@ -8,7 +8,9 @@ export const showLoading = () => {
   const overlay = createEl("div", "loading-overlay");
   const spinner = createEl("div", "spinner");
   overlay.appendChild(spinner);
-  document.body.appendChild(overlay);
+  const header = document.querySelector('header');
+  header.appendChild(overlay);
+
 };
 
 // Oculta el loading

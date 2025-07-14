@@ -1,7 +1,9 @@
 import { createEl } from '../utils/createElements.js';
+import { showLoading, hideLoading } from '../components/loading.js';
 
 export const createHeader = () => {
   const isLoggedIn = !!sessionStorage.getItem('token');
+  const role = sessionStorage.getItem('role');
 
   const header = createEl('header', 'header');
 
@@ -9,17 +11,27 @@ export const createHeader = () => {
   const logo = createEl('a', 'logo', 'Galería de Arte');
   logo.href = '#home';
 
-  // Navegación principal
+  // Navegación principal (desktop)
   const nav = createEl('nav', 'links');
   const ul = document.createElement('ul');
-  const links = [
-    { text: 'Favoritos', href: '#favoritos' },
-    { text: 'Mis Obras', href: '#usuarios' },
-    { text: 'Subir', href: '#subir' },
-    { text: 'Buscar', href: '#buscar' }
-  ];
 
-  links.forEach(({ text, href }) => {
+  const navLinks = isLoggedIn
+    ? [
+        { text: 'Favoritos', href: '#favoritos' },
+        { text: 'Mis Obras', href: '#misobras' },
+        { text: 'Subir', href: '#subir' },
+        { text: 'Buscar', href: '#buscar' }
+      ]
+    : [];
+
+  if (isLoggedIn && role === 'admin') {
+    navLinks.push(
+      { text: 'Pendientes', href: '#pendientes' },
+      { text: 'Usuarios', href: '#usuarios' }
+    );
+  }
+
+  navLinks.forEach(({ text, href }) => {
     const li = document.createElement('li');
     const a = createEl('a', null, text);
     a.href = href;
@@ -29,7 +41,7 @@ export const createHeader = () => {
 
   nav.appendChild(ul);
 
-  // Sesión
+  // Navegación de sesión
   const session = createEl('nav', 'session');
   const sessionUl = document.createElement('ul');
 
@@ -45,11 +57,22 @@ export const createHeader = () => {
     const a = createEl('a', 'session-link', text);
     a.href = id === 'logout' ? '#' : `#${id}`;
 
-    a.addEventListener('click', (e) => {
+    a.addEventListener('click', async (e) => {
       if (id === 'logout') {
         e.preventDefault();
+        showLoading();
+
         sessionStorage.removeItem('token');
-        location.reload(); // reinicia para volver a estado no logueado
+        sessionStorage.removeItem('role');
+        refreshHeader();
+
+        if (location.hash === '#home') {
+          window.dispatchEvent(new HashChangeEvent('hashchange'));
+        } else {
+          location.hash = '#home';
+        }
+
+        hideLoading();
       }
     });
 
@@ -59,10 +82,19 @@ export const createHeader = () => {
 
   session.appendChild(sessionUl);
 
-  // Botón de menú hamburguesa (por ahora solo visual)
+  // Botón hamburguesa (solo activa toggle en mobile)
   const toggleButton = createEl('button', 'toggleButton', '☰');
+  toggleButton.type = 'button';
 
-  // Montaje final
   header.append(logo, nav, session, toggleButton);
   return header;
+};
+
+export const refreshHeader = () => {
+  const oldHeader = document.querySelector('header');
+  if (oldHeader) oldHeader.remove();
+
+  const newHeader = createHeader();
+  const app = document.getElementById('app');
+  app.insertBefore(newHeader, app.firstChild);
 };

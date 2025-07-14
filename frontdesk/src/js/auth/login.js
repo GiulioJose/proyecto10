@@ -1,6 +1,6 @@
 import { apiFetch } from '../utils/apiFetch';
 import { showLoading, hideLoading } from '../components/loading';
-import { renderHome } from '../views/home';
+import { refreshHeader } from '../components/header';
 
 export const handleLogin = async (email, password, messageEl) => {
   if (!email || !password) {
@@ -17,10 +17,11 @@ export const handleLogin = async (email, password, messageEl) => {
     });
 
     sessionStorage.setItem('token', res.token);
-    hideLoading();
+    sessionStorage.setItem('role', res.user.rol || 'user'); // ← CORREGIDO
 
-    document.body.innerHTML = ''; // limpia vista anterior
-    document.body.appendChild(renderHome());
+    hideLoading();
+    refreshHeader();
+    location.hash = '#home';
 
   } catch (err) {
     hideLoading();

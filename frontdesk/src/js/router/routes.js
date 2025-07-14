@@ -4,6 +4,7 @@ import viewFavoritos from '../views/favoritos.js';
 import viewHome from '../views/home.js';
 import viewInfo from '../views/info.js';
 import viewLogin from '../views/login.js';
+import viewMisObras from '../views/misObras.js'
 import viewPendientes from '../views/pendientes.js';
 import viewRegister from '../views/register.js';
 import viewSubir from '../views/subir.js';
@@ -16,6 +17,7 @@ const routes = {
   home: viewHome,
   info: viewInfo,
   login: viewLogin,
+  misobras: viewMisObras,
   pendientes: viewPendientes,
   register: viewRegister,
   subir: viewSubir,

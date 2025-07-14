@@ -1,6 +1,5 @@
 import { createEl } from '../utils/createElements.js';
-import { apiFetch } from '../utils/apiFetch.js';
-import { showLoading, hideLoading } from '../components/loading.js';
+import { handleRegister } from '../auth/register.js';
 
 export default async function viewRegister() {
   const container = createEl('div', 'register-container');
@@ -56,40 +55,7 @@ export default async function viewRegister() {
       return;
     }
 
-    if (password.length < 6) {
-      message.textContent = 'La contraseña debe tener al menos 6 caracteres';
-      return;
-    }
-
-    const nombreValido = /^[a-zA-Z0-9]+$/.test(nombre);
-    if (!nombreValido) {
-      message.textContent = 'El nombre solo puede contener letras y números, sin espacios ni símbolos.';
-      return;
-    }
-
-    const emailValido = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
-    if (!emailValido) {
-      message.textContent = 'Introduce un correo electrónico válido';
-      return;
-    }
-
-    try {
-      showLoading();
-      const res = await apiFetch('/users/register', {
-        method: 'POST',
-        body: { nombre, email, password }
-      });
-      hideLoading();
-
-      sessionStorage.setItem('token', res.token);
-      sessionStorage.setItem('role', res.role || 'user');
-      location.hash = '#home';
-
-    } catch (err) {
-      hideLoading();
-      console.error('Error al registrar:', err);
-      message.textContent = err.message || 'Error al registrarse';
-    }
+    await handleRegister(nombre, email, password, message);
   });
 
   return container;
