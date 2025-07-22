@@ -2,6 +2,7 @@ import Obra from "../models/obra.model.js";
 
 // 🔸 Crear una nueva obra
 export const createObra = async (req, res) => {
+
   try {
     const {
       titulo,
@@ -212,13 +213,23 @@ export const editarObra = async (req, res) => {
     } = req.body;
 
     const obra = await Obra.findById(id);
-    if (!obra) return res.status(404).json({ message: "Obra no encontrada" });
+    if (!obra) {
+      console.warn('⚠️ Obra no encontrada con ese ID');
+      return res.status(404).json({ message: "Obra no encontrada" });
+    }
+
+    console.log('🖼️ Obra encontrada:', obra);
 
     const esAdmin = req.user.rol === "admin";
-    const esAutor = obra.subidaPor.toString() === req.user.id;
+    const esAutor = obra.subidaPor?.toString?.() === req.user.id;
     const estaPendiente = obra.aprobada === false;
 
+    console.log('🔐 esAdmin:', esAdmin);
+    console.log('🔐 esAutor:', esAutor);
+    console.log('🔐 estaPendiente:', estaPendiente);
+
     if (!esAdmin && (!esAutor || !estaPendiente)) {
+      console.warn('⛔ No tiene permiso para editar');
       return res.status(403).json({ message: "No tienes permiso para editar esta obra" });
     }
 
@@ -226,7 +237,10 @@ export const editarObra = async (req, res) => {
     if (autor) obra.autor = autor;
     if (ano) {
       const parsed = Number(ano);
-      if (isNaN(parsed)) return res.status(400).json({ message: "El año debe ser un número válido" });
+      if (isNaN(parsed)) {
+        console.warn('⚠️ Año inválido:', ano);
+        return res.status(400).json({ message: "El año debe ser un número válido" });
+      }
       obra.año = parsed;
     }
     if (siglo) obra.siglo = siglo;
@@ -236,8 +250,10 @@ export const editarObra = async (req, res) => {
 
     await obra.save();
 
+    console.log('✅ Obra actualizada correctamente');
     res.status(200).json({ message: "Obra actualizada correctamente", obra });
   } catch (error) {
+    console.error('🔥 Error al editar la obra:', error);
     res.status(500).json({ message: "Error al editar la obra", error: error.message });
   }
 };
