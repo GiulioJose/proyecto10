@@ -12,18 +12,25 @@ const API_URL = isLocalhost
  * @returns {Promise<any>} - JSON o error
  */
 export const apiFetch = async (endpoint, options = {}) => {
+  const isFormData = options.isFormData === true;
+
+  const headers = {
+    ...(sessionStorage.getItem('token') && {
+      Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+    }),
+  };
+
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   const res = await fetch(API_URL + '/api' + endpoint, {
     method: options.method || 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(sessionStorage.getItem('token') && {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-      }),
-    },
-    body: options.body ? JSON.stringify(options.body) : null,
+    headers,
+    body: isFormData ? options.body : JSON.stringify(options.body),
   });
 
-  const data = await res.json().catch(() => ({})); // evita error si no es JSON
+  const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
     const error = new Error(data.message || 'Error en la petición');
@@ -33,3 +40,4 @@ export const apiFetch = async (endpoint, options = {}) => {
 
   return data;
 };
+

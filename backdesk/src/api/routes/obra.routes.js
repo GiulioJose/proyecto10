@@ -44,7 +44,7 @@ router.get("/pendientes", verifyToken, isAdmin, getObrasPendientes);
 router.patch("/:id/aprobar", verifyToken, isAdmin, aprobarObra);
 
 // 🔸 Editar obra – autor si pendiente o admin
-router.patch("/:id", verifyToken, editarObra);
+router.patch("/:id", verifyToken, upload.single("imagen"), editarObra);
 
 // 🔸 Añadir o quitar favoritos – requiere login
 router.patch("/:id/favorito", verifyToken, toggleFavorito);

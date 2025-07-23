@@ -6,6 +6,17 @@ const main = document.createElement('main');
 const section = document.createElement('section');
 main.appendChild(section);
 
+let currentView = 'home';
+let previousView = null;
+
+export function setPreviousView(viewName) {
+  previousView = viewName;
+}
+
+export function getPreviousView() {
+  return previousView || 'home';
+}
+
 const renderLayout = () => {
   const app = document.getElementById('app');
   app.innerHTML = '';
@@ -18,10 +29,15 @@ const renderLayout = () => {
   app.appendChild(footer);
 };
 
-const renderRoute = async (routeName) => {
+export const renderRoute = async (routeName) => {
+  if (routeName !== currentView) {
+    previousView = currentView;
+    currentView = routeName;
+  }
+
   const route = routes[routeName];
   if (route) {
-    const viewContent = await route(); // función que devuelve un nodo
+    const viewContent = await route();
     section.innerHTML = '';
     section.id = routeName;
     section.appendChild(viewContent);

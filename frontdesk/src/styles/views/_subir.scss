@@ -1,0 +1,97 @@
+@use '../global/mixins' as *;
+
+.subir-view {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--base-unit) * 2);
+  padding: calc(var(--base-unit) * 2);
+  font-family: var(--fnt-family);
+  color: var(--txt-color-3);
+
+  .subir-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: calc(var(--base-unit) * 2);
+  }  
+
+  .subir-preview {
+    max-width: 400px;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--cr-radius-1);
+      box-shadow: var(--shadow-2);
+    }
+
+    .cambiar-imagen-btn {
+      margin-top: var(--base-unit);
+      @include button-base(var(--bg-color-3), var(--txt-color-3));
+      border: 1px solid var(--rtc-color-6);
+      font-size: var(--tfs-size-1);
+
+      &:hover {
+        @include hover(var(--bg-color-4), var(--txt-color-3));
+      }
+    }
+  }
+
+  .dropzone {
+    max-width: 400px;
+    height: 400px;
+    border: 2px dashed var(--rtc-color-6);
+    border-radius: var(--cr-radius-1);
+    background-color: var(--bg-color-3);
+    color: var(--txt-color-4);
+    @include flex(column, center, center);
+    text-align: center;
+    padding: var(--base-unit);
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+
+    &:hover,
+    &:focus,
+    &.dragover {
+      border-color: var(--rtc-color-2);
+      outline: none;
+    }
+
+    p {
+      font-size: var(--tfs-size-1);
+      pointer-events: none;
+    }
+  }
+
+  .subir-form {
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--base-unit);
+
+    input {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      font-size: var(--tfs-size-1);
+      font-family: var(--fnt-family);
+      color: var(--txt-color-3);
+      background-color: var(--bg-color-3);
+      border: 1px solid var(--rtc-color-6);
+      border-radius: var(--cr-radius-1);
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: var(--rtc-color-2);
+      }
+    }
+  }
+
+  .subir-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(var(--base-unit) * 2);
+  }
+}

@@ -1,0 +1,71 @@
+@use '../global/mixins' as *;
+
+.info-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--base-unit);
+  padding-top: var(--base-unit);
+  border-top: 1px solid var(--rtc-color-6);
+}
+
+.info-action-btn {
+  @include button-base(var(--rtc-color-2), var(--txt-color-1));
+  font-family: var(--fnt-family);
+  font-size: var(--tfs-size-1);
+  font-weight: var(--fnt-weight-4);
+  line-height: var(--line-height-default);
+  letter-spacing: var(--letter-spacing-default);
+  border-radius: var(--cr-radius-1);
+  box-shadow: var(--shadow-1);
+  border: none;
+  transition: transform 0.1s ease;
+
+  &:hover {
+    @include hover(var(--rtc-color-3), var(--txt-color-1));
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  // 🟢 Aprobar
+  &.is-success {
+    background-color: var(--color-success);
+    color: var(--txt-color-1);
+
+    &:hover {
+      @include hover(var(--color-success), var(--txt-color-1));
+    }
+  }
+
+  // 🔴 Eliminar
+  &.is-error {
+    background-color: var(--color-error);
+    color: var(--txt-color-1);
+
+    &:hover {
+      @include hover(var(--color-error), var(--txt-color-1));
+    }
+  }
+
+  // 🟡 Editar
+  &.is-warning {
+    background-color: var(--color-warning);
+    color: var(--txt-color-3);
+
+    &:hover {
+      @include hover(var(--color-warning), var(--txt-color-3));
+    }
+  }
+
+  // 🔵 Descargar
+  &.is-info {
+    background-color: var(--color-info);
+    color: var(--txt-color-1);
+
+    &:hover {
+      @include hover(var(--color-info), var(--txt-color-1));
+    }
+  }
+}

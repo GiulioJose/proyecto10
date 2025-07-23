@@ -45,7 +45,12 @@ const createToggleMenu = () => {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('role');
         refreshHeader();
-        location.hash = '#home';
+      
+        if (location.hash === '#home') {
+          window.dispatchEvent(new HashChangeEvent('hashchange'));
+        } else {
+          location.hash = '#home';
+        }
       } else {
         location.hash = `#${id}`;
       }

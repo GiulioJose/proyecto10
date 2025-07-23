@@ -1,0 +1,27 @@
+.sugerencias {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%; // igual que tu input
+  max-width: 500px;
+  margin-top: 0.3rem;
+  background-color: var(--bg-color-4);
+  border: 1px solid var(--rtc-color-4);
+  border-radius: var(--br);
+  list-style: none;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+
+  .sugerencia-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--rtc-color-3);
+      color: var(--txt-color-5);
+    }
+  }
+}

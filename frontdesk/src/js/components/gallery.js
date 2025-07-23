@@ -1,22 +1,14 @@
 import Macy from 'macy';
 import { createFavoriteButton } from './favoriteButton.js';
 
-export function renderGallery(data, container) {
-  console.log('🔍 renderGallery recibió:', data);
-
+export function renderGallery(data, container, { mostrarFavoritos = true } = {}) {
   const gallery = document.createElement('div');
   gallery.classList.add('gallery');
-  gallery.id = 'gallery';
+  // ❌ No se asigna ID para evitar conflictos si hay varias galerías
 
   const obras = data.obras || [];
   const haySesion = !!sessionStorage.getItem('token');
   const userId = sessionStorage.getItem('userId');
-
-  if (obras.length) {
-    console.log('🖼 Primera obra:', obras[0]);
-    console.log('❤️ Favoritos de la primera obra:', obras[0].favoritos);
-    console.log('👤 userId actual:', userId);
-  }
 
   obras.forEach(obra => {
     obra.favoritos = obra.favoritos || [];
@@ -33,22 +25,22 @@ export function renderGallery(data, container) {
     infoBtn.classList.add('info-btn');
     infoBtn.textContent = '+info';
 
-  infoBtn.addEventListener('click', () => {
-  const haySesion = !!sessionStorage.getItem('token');
+    infoBtn.addEventListener('click', () => {
+      if (!haySesion) {
+        alert('Debes iniciar sesión para ver la información de la obra.');
+        return;
+      }
 
-  if (!haySesion) {
-    alert('Debes iniciar sesión para ver la información de la obra.');
-    return;
-  }
-
-  sessionStorage.setItem('obra', JSON.stringify(obra));
-  location.hash = '#info';
-});
+      sessionStorage.setItem('obra', JSON.stringify(obra));
+      setTimeout(() => {
+        location.hash = '#info';
+      }, 0);
+    });
 
     card.appendChild(img);
     card.appendChild(infoBtn);
 
-    if (haySesion && userId) {
+    if (mostrarFavoritos && haySesion && userId) {
       const favBtn = createFavoriteButton(obra);
       card.appendChild(favBtn);
     }
@@ -60,7 +52,7 @@ export function renderGallery(data, container) {
 
   setTimeout(() => {
     Macy({
-      container: '#gallery',
+      container: gallery, // ✅ Pasamos el nodo directamente
       trueOrder: false,
       waitForImages: true,
       margin: 16,

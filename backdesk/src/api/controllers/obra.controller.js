@@ -2,7 +2,6 @@ import Obra from "../models/obra.model.js";
 
 // 🔸 Crear una nueva obra
 export const createObra = async (req, res) => {
-
   try {
     const {
       titulo,
@@ -33,7 +32,7 @@ export const createObra = async (req, res) => {
       continente,
       imagen: req.file.path,
       subidaPor: req.user.id,
-      aprobada: req.user.rol === 'admin', // Aquí la lógica simple
+      aprobada: req.user.rol === 'admin',
     });
 
     await nuevaObra.save();
@@ -42,10 +41,7 @@ export const createObra = async (req, res) => {
       ? 'Obra subida correctamente y aprobada automáticamente.'
       : 'Obra subida correctamente. Pendiente de aprobación.';
 
-    res.status(201).json({
-      message: mensaje,
-      obra: nuevaObra,
-    });
+    res.status(201).json({ message: mensaje, obra: nuevaObra });
   } catch (error) {
     res.status(500).json({ message: 'Error al subir obra', error: error.message });
   }
@@ -64,10 +60,7 @@ export const aprobarObra = async (req, res) => {
     obra.aprobada = true;
     await obra.save();
 
-    res.status(200).json({
-      message: "Obra aprobada correctamente",
-      obra,
-    });
+    res.status(200).json({ message: "Obra aprobada correctamente", obra });
   } catch (error) {
     res.status(500).json({ message: "Error al aprobar obra", error: error.message });
   }
@@ -89,7 +82,6 @@ export const toggleFavorito = async (req, res) => {
     }
 
     const yaEsFavorita = obra.favoritos.includes(userId);
-
     if (yaEsFavorita) {
       obra.favoritos = obra.favoritos.filter(uid => uid.toString() !== userId);
     } else {
@@ -111,8 +103,6 @@ export const toggleFavorito = async (req, res) => {
 export const getObras = async (req, res) => {
   try {
     let userId = null;
-
-    // Si viene token, tratar de decodificarlo
     const authHeader = req.headers.authorization;
     if (authHeader?.startsWith("Bearer ")) {
       const token = authHeader.split(" ")[1];
@@ -121,14 +111,11 @@ export const getObras = async (req, res) => {
     }
 
     const obras = await Obra.find({ aprobada: true });
-
     const obrasConFavorito = obras.map((obra) => {
       const obraObj = obra.toObject();
-      if (userId) {
-        obraObj.favoritos = obra.favoritos.map(id => id.toString());
-      } else {
-        obraObj.favoritos = [];
-      }
+      obraObj.favoritos = userId
+        ? obra.favoritos.map(id => id.toString())
+        : [];
       return obraObj;
     });
 
@@ -148,7 +135,11 @@ export const getObraById = async (req, res) => {
       return res.status(404).json({ message: "Obra no encontrada" });
     }
 
-    if (!obra.aprobada && req.user.rol !== "admin" && obra.subidaPor._id.toString() !== req.user.id) {
+    const esAdmin = req.user.rol === "admin";
+    const esAutor = obra.subidaPor._id.toString() === req.user.id;
+    const estaPendiente = obra.aprobada === false;
+
+    if (!obra.aprobada && !esAdmin && !esAutor) {
       return res.status(403).json({ message: "No tienes permiso para ver esta obra" });
     }
 
@@ -158,7 +149,7 @@ export const getObraById = async (req, res) => {
   }
 };
 
-// 🔸 Obtener obras aprobadas del usuario
+// 🔸 Obtener obras del usuario
 export const getObrasMiasAprobadas = async (req, res) => {
   try {
     const obras = await Obra.find({ subidaPor: req.user.id, aprobada: true });
@@ -168,7 +159,6 @@ export const getObrasMiasAprobadas = async (req, res) => {
   }
 };
 
-// 🔸 Obtener obras pendientes del usuario
 export const getObrasMiasPendientes = async (req, res) => {
   try {
     const obras = await Obra.find({ subidaPor: req.user.id, aprobada: false });
@@ -178,7 +168,7 @@ export const getObrasMiasPendientes = async (req, res) => {
   }
 };
 
-// 🔸 Obtener obras favoritas del usuario
+// 🔸 Obras favoritas del usuario
 export const getObrasFavoritas = async (req, res) => {
   try {
     const obras = await Obra.find({ favoritos: req.user.id });
@@ -188,7 +178,7 @@ export const getObrasFavoritas = async (req, res) => {
   }
 };
 
-// 🔸 Obtener todas las obras pendientes (admin)
+// 🔸 Obras pendientes (admin)
 export const getObrasPendientes = async (req, res) => {
   try {
     const obras = await Obra.find({ aprobada: false }).populate("subidaPor", "nombre email");
@@ -214,22 +204,14 @@ export const editarObra = async (req, res) => {
 
     const obra = await Obra.findById(id);
     if (!obra) {
-      console.warn('⚠️ Obra no encontrada con ese ID');
       return res.status(404).json({ message: "Obra no encontrada" });
     }
-
-    console.log('🖼️ Obra encontrada:', obra);
 
     const esAdmin = req.user.rol === "admin";
     const esAutor = obra.subidaPor?.toString?.() === req.user.id;
     const estaPendiente = obra.aprobada === false;
 
-    console.log('🔐 esAdmin:', esAdmin);
-    console.log('🔐 esAutor:', esAutor);
-    console.log('🔐 estaPendiente:', estaPendiente);
-
     if (!esAdmin && (!esAutor || !estaPendiente)) {
-      console.warn('⛔ No tiene permiso para editar');
       return res.status(403).json({ message: "No tienes permiso para editar esta obra" });
     }
 
@@ -238,7 +220,6 @@ export const editarObra = async (req, res) => {
     if (ano) {
       const parsed = Number(ano);
       if (isNaN(parsed)) {
-        console.warn('⚠️ Año inválido:', ano);
         return res.status(400).json({ message: "El año debe ser un número válido" });
       }
       obra.año = parsed;
@@ -248,12 +229,14 @@ export const editarObra = async (req, res) => {
     if (pais) obra.pais = pais;
     if (continente) obra.continente = continente;
 
-    await obra.save();
+    // ✅ Nuevo: actualizar imagen si se sube una nueva
+    if (req.file && req.file.path) {
+      obra.imagen = req.file.path;
+    }
 
-    console.log('✅ Obra actualizada correctamente');
+    await obra.save();
     res.status(200).json({ message: "Obra actualizada correctamente", obra });
   } catch (error) {
-    console.error('🔥 Error al editar la obra:', error);
     res.status(500).json({ message: "Error al editar la obra", error: error.message });
   }
 };
@@ -266,7 +249,9 @@ export const eliminarObra = async (req, res) => {
     const userRole = req.user.rol;
 
     const obra = await Obra.findById(id);
-    if (!obra) return res.status(404).json({ message: "Obra no encontrada" });
+    if (!obra) {
+      return res.status(404).json({ message: "Obra no encontrada" });
+    }
 
     if (userRole !== "admin" && (obra.subidaPor.toString() !== userId || obra.aprobada)) {
       return res.status(403).json({
@@ -298,18 +283,16 @@ export const buscarObras = async (req, res) => {
         { siglo: regex },
         { pais: regex },
         { continente: regex },
-        { año: !isNaN(Number(q)) ? Number(q) : -9999 }, // si es número, busca año exacto
+        { año: !isNaN(Number(q)) ? Number(q) : -9999 },
       ],
     }).populate("subidaPor", "nombre");
 
-    // Coincidencia manual para nombre del usuario (ya que no podemos usar regex en populate)
     const resultadoFinal = obras.filter((obra) =>
       obra.subidaPor?.nombre?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(
         q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       )
     );
 
-    // Combinar ambos resultados (de Mongo y de nombre del usuario)
     const idsSet = new Set(resultadoFinal.map((o) => o._id.toString()));
     obras.forEach((obra) => {
       if (!idsSet.has(obra._id.toString())) {
@@ -322,4 +305,3 @@ export const buscarObras = async (req, res) => {
     res.status(500).json({ message: "Error al buscar obras", error: error.message });
   }
 };
-

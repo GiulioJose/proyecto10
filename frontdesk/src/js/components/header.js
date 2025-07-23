@@ -59,22 +59,19 @@ export const createHeader = () => {
 
     a.addEventListener('click', async (e) => {
       if (id === 'logout') {
-        e.preventDefault();
-        showLoading();
-
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('role');
-        sessionStorage.removeItem('userId');
         refreshHeader();
-
+      
         if (location.hash === '#home') {
           window.dispatchEvent(new HashChangeEvent('hashchange'));
         } else {
           location.hash = '#home';
         }
-
-        hideLoading();
+      } else {
+        location.hash = `#${id}`;
       }
+      
     });
 
     li.appendChild(a);

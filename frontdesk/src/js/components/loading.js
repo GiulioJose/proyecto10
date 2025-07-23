@@ -8,8 +8,8 @@ export const showLoading = () => {
   const spinner = createEl("div", "spinner");
   overlay.appendChild(spinner);
 
-  const header = document.querySelector('header');
-  header.appendChild(overlay);
+  const main = document.querySelector('main');
+  main.appendChild(overlay);
 };
 
 // Oculta el loading

@@ -10,7 +10,6 @@ async function viewHome() {
 
   try {
     const data = await apiFetch('/obras');
-    console.log('Respuesta del backend:', data);
     renderGallery(data, galleryWrapper);
   } catch (error) {
     galleryWrapper.textContent = 'Error al cargar obras: ' + error.message;

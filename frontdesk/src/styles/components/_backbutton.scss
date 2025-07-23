@@ -1,0 +1,24 @@
+@use '../global/mixins' as *;
+
+.back-btn {
+  position: absolute;
+  top: var(--base-unit);
+  right: var(--base-unit);
+
+  @include button-base(var(--bg-color-3), var(--txt-color-3));
+  border: 1px solid var(--rtc-color-6);
+  box-shadow: var(--shadow-1);
+  font-weight: var(--fnt-weight-4);
+  font-size: var(--tfs-size-1);
+  line-height: var(--line-height-default);
+  letter-spacing: var(--letter-spacing-default);
+
+  &:hover {
+    @include hover(var(--bg-color-4), var(--txt-color-3));
+    border-color: var(--rtc-color-2);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

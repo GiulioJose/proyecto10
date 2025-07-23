@@ -15,6 +15,10 @@
 @use 'components/toggle';
 @use 'components/gallery';
 @use 'components/favoriteButton';
+@use 'components/emptyMessage';
+@use 'components/infoActions';
+@use 'components/backbutton';
+@use 'components/buscador';
 
 // ==================================
 // 🧭 VISTAS
@@ -23,3 +27,6 @@
 @use 'views/register';
 @use 'views/buscar';
 @use 'views/info';
+@use 'views/misObras';
+@use 'views/subir';
+@use 'views/usuarios';
