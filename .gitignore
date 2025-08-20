@@ -27,8 +27,3 @@ out/
 # ⚠️ OS-specific
 *.bak
 *.tmp
-
-# 🔐 Entornos (excepto el .env del backend)
-.env
-.env.*
-!backdesk/.env
