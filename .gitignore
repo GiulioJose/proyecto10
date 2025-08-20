@@ -1,29 +1,9 @@
-# 🌐 General
-.DS_Store
-Thumbs.db
+# Ignorar node_modules en todo el repo
+**/node_modules/
+
+# Ignorar directorios de build comunes
+**/dist/
+**/build/
+
+# Ignorar logs
 *.log
-
-# 📦 Node modules
-node_modules/
-
-# 🚫 Compilados / temporales
-dist/
-build/
-.cache/
-.vite/
-.next/
-out/
-
-# ⛔ Archivos de test/local
-*.local.*
-*.swp
-*.swo
-
-# 🔍 IDEs y editores
-.vscode/
-.idea/
-*.iml
-
-# ⚠️ OS-specific
-*.bak
-*.tmp

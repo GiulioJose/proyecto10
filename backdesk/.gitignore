@@ -1,2 +1,9 @@
+# Ignorar node_modules de backend
 node_modules/
-.env
+
+# Ignorar builds temporales
+dist/
+build/
+
+# ⚠️ Incluir .env (se fuerza con !)
+!.env
